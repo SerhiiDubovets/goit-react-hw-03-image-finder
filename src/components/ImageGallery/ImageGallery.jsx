@@ -21,6 +21,7 @@ export default class ImageGallery extends Component {
     showModal: false,
     modalImg: '',
     modalAlt: '',
+    isLoader: false,
   };
 
   // idle - запроса ещё нет
@@ -49,7 +50,7 @@ export default class ImageGallery extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.galleryName !== this.props.galleryName) {
-      this.setState({ page: 1, gallery: [] });
+      this.setState({ page: 1, gallery: [], isLoader: true });
     }
 
     if (
@@ -61,7 +62,7 @@ export default class ImageGallery extends Component {
           this.props.galleryName,
           this.props.numberPage
         );
-        this.setState({ status: 'resolved' });
+        this.setState({ status: 'resolved', isLoader: false });
         if (prevState.galleryName !== this.state.galleryName) {
           this.setState({
             gallery: [...resolve.data.hits],
@@ -93,15 +94,23 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    const { gallery, status, resolve, errors, showModal, modalImg, modalAlt } =
-      this.state;
+    const {
+      gallery,
+      status,
+      resolve,
+      errors,
+      showModal,
+      modalImg,
+      modalAlt,
+      isLoader,
+    } = this.state;
     const { galleryName, onLoadMore } = this.props;
 
     if (resolve === 0) {
       return <NotFound galleryName={galleryName} />;
     }
 
-    if (status === 'pending') {
+    if (status === 'pending' || isLoader) {
       return <Loader />;
     }
 
