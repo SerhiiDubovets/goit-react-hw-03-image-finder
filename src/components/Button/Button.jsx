@@ -8,5 +8,5 @@ const LoadMore = ({ Click }) => {
 export default LoadMore;
 
 Button.propTypes = {
-  Click: PropTypes.func.isRequired,
+  Click: PropTypes.func,
 };

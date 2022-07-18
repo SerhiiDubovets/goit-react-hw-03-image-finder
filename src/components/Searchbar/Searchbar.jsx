@@ -15,7 +15,7 @@ export default class Searchbar extends Component {
   };
 
   handleNameChange = event => {
-    this.setState({ galleryName: event.currentTarget.value.toLowerCase() });
+    this.setState({ galleryName: event.target.value.toLowerCase() });
   };
 
   handleSubmit = e => {
